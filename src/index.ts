@@ -1,4 +1,8 @@
 import express from 'express';
+import mysql from 'mysql';
+import productRoutes from './routes/product.routes';
+import clientRoutes from './routes/client.routes';
+import categoryRoutes from './routes/category.routes';
 
 const app = express();
 const port = 3001;
@@ -9,17 +13,9 @@ app.get('/', (req, res) => {
   res.send('¡Hola, mundo!');
 });
 
-app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
-});
-
-import exampleRoutes from './routes/exampleRoutes';
-
-// ...
-
-app.use('/', exampleRoutes);
-
-import mysql from 'mysql';
+app.use('/product', productRoutes);
+app.use('/client', clientRoutes);
+app.use('/category', categoryRoutes);
 
 const dbConfig = {
   host: 'localhost',
@@ -35,10 +31,11 @@ connection.connect((err) => {
     console.error('Error al conectar a la base de datos:', err);
     return;
   }
-  console.log('Conexión exitosa a la base de datos MySQL');
-});
 
-export default connection;
+  app.listen(port, () => {
+    console.log(`Servidor corriendo en http://localhost:${port}`);
+  });
+});
 
 process.on('SIGINT', () => {
   connection.end((err) => {
@@ -51,3 +48,4 @@ process.on('SIGINT', () => {
   });
 });
 
+export default connection;
