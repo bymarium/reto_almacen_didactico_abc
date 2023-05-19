@@ -28,7 +28,7 @@ export const getClients = async (req: Request, res: Response) => {
 };
 
 export const deletClient = async (req: Request, res: Response) => {  
-  connection.query('DELETE FROM productos WHERE id_producto = ' + req.params.documento, (error, results) => {
+  connection.query('DELETE FROM productos WHERE documento = ' + req.params.documento, (error, results) => {
     if (error) {
       console.error('Error al ejecutar la consulta:', error);
       res.status(500).send('Error al obtener datos');
